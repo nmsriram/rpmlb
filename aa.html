@@ -1,0 +1,74 @@
+<html>
+  <head>
+    <STYLE TYPE="text/css">
+      <!--
+          button{font-family: Arial; font-size: 100pt; width:100%; }
+          input{font-family: Arial; font-size: 24pt; width:100%; }
+          table{align:center; font-family: Arial; font-size: 20pt; width=100% height=60% }
+          td{align:center; font-family: Arial; font-size: 90%;  }
+          a{align:center; font-family: Arial; font-size: 80pt; width:100%; }
+        --->
+    </STYLE>
+
+    <script type="text/javascript">
+    window.cur="|"
+    window.str=window.cur;
+    getElementById('.results').contentEditable = true;
+    </script>
+    <script type="text/javascript">
+      function docwrite(x) {
+	  if (window['str'] == undefined) window.str = window.cur;
+	  var i = window.str.length-1;
+	  window.str = window.str.slice(0,i)+x+window.cur;  
+	  document.querySelector('.results').innerHTML = window.str;
+      }
+      function docdel() {
+	  if (window['str'] == undefined)return;
+	  var i = window.str.length-2;
+	  window.str = window.str.slice(0,i)+window.cur;  
+	  document.querySelector('.results').innerHTML = window.str;
+      }
+      function initTable() {
+          genTable('ai');
+      }
+      function genTable(name) {
+	  if (name == 'ai') offset = 0;
+	  if (name == 'jr') offset = 9;
+	  if (name == 'sz') offset = 18;
+	  var str = '';
+	  str += '<div class="theTable" border:"1px solid black"><table border=1 height=50%>';
+	  offset +=65;
+	  for(i=0; i<3; i++) {
+	      str += '<tr>'
+	      for (j=0; j<3; j++) {
+		  var chr = String.fromCharCode(offset);
+		  if (chr != '[') str+='<td><a onclick="docwrite('+"'"+chr+"'"+')" href="javascript:void(0);">'+chr+'</a></td>';
+		  else str += '<td> </td>';
+		  offset++;
+	      }
+	      str+='<td width=10%/>';
+	      if (i==0) str+='<td><a onclick="docwrite('+"'\xa0'"+')" href="javascript:void(0);">&bbrk;</a></td>';
+	      else if (i==1) str += '<td/>';
+	      else str+='<td><a onclick="docdel()" href="javascript:void(0);">&larr;</a></td>';
+	      str += '</tr>';
+	      str+='<tr/>';
+	  }
+	  str+='</table><p/><table border:"1px solid black"><table border=1 width=80%><tr>';
+	  str+='<td><a onclick="genTable('+"'ai'"+')" href="javascript:void(0);">A-I</a></td>';
+	  str+='<td><a onclick="genTable('+"'jr'"+')" href="javascript:void(0);">J-R</a></td>';
+	  str+='<td><a onclick="genTable('+"'sz'"+')" href="javascript:void(0);">S-Z</a></td>';
+	  str+='</tr>';
+	  str += '</table></div>';
+	  document.querySelector('.theTable').innerHTML = str;
+      }
+</script>
+  </head>
+
+  <body>
+    <h1><div class="results" border:"1px solid black">|</div></h1>
+    <div class="theTable" border:"1px solid black"/>
+    <a onclick="initTable()" href="javascript:void(0);">Start!</a>
+    </div>
+  </body>
+
+</html>
